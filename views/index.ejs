@@ -33,5 +33,19 @@
             <button type="submit">Send</button>
         </form>
     </main>
+      <% if (open) { %>
+        <dialog open>
+      <% } else { %>
+        <dialog>
+      <% } %>
+            <form action="/newUser" method="POST">
+              <% if (authError) { %>
+                <p><%= authError %></p>
+              <% } %>
+              <input type="text" placeholder="Your name" name="name" required>
+              <input type="password" placeholder="Your password" name="password" required>  
+              <button type="submit">Enter</button>
+            </form>
+        </dialog>
 </body>
 </html>
