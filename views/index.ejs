@@ -56,29 +56,29 @@
         const messageBoard = document.querySelector('.messageBoard');
 
         document.addEventListener('DOMContentLoaded', () => {
-        messageBoard.scrollTop = messageBoard.scrollHeight;
+            messageBoard.scrollTop = messageBoard.scrollHeight;
         });
 
         openModalBtn.addEventListener('click', (e) => {
-        modal.showModal();
+            modal.showModal();
         });
 
         if (logoutBtn) {
-        logoutBtn.addEventListener('click', async () => {
-            const response = await fetch('/logout', {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
+            logoutBtn.addEventListener('click', async () => {
+                const response = await fetch('/logout', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
             });
             const data = await response.json();
             if (data && data.ok) {
-            location.reload();
+                location.reload();
             }
         });
         }
 
         modal.addEventListener('click', (e) => {
-        if (e.target !== modal) return;
-        modal.close(); 
+            if (e.target !== modal) return;
+            modal.close(); 
         });
     </script>
 </body>
