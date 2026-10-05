@@ -47,5 +47,39 @@
               <button type="submit">Enter</button>
             </form>
         </dialog>
+    <script>
+        const modal = document.querySelector('dialog');
+        const openModalBtn = document.querySelector('.userCard button.openModal');
+        const logoutBtn = document.querySelector('.userCard button.logout');
+        const loginForm = document.querySelector('dialog form');
+
+        const messageBoard = document.querySelector('.messageBoard');
+
+        document.addEventListener('DOMContentLoaded', () => {
+        messageBoard.scrollTop = messageBoard.scrollHeight;
+        });
+
+        openModalBtn.addEventListener('click', (e) => {
+        modal.showModal();
+        });
+
+        if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+            const response = await fetch('/logout', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            });
+            const data = await response.json();
+            if (data && data.ok) {
+            location.reload();
+            }
+        });
+        }
+
+        modal.addEventListener('click', (e) => {
+        if (e.target !== modal) return;
+        modal.close(); 
+        });
+    </script>
 </body>
 </html>
