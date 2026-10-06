@@ -38,20 +38,34 @@
       <% } else { %>
         <dialog>
       <% } %>
-            <form action="/newUser" method="POST">
-              <% if (authError) { %>
-                <p><%= authError %></p>
-              <% } %>
-              <input type="text" placeholder="Your name" name="name" required>
-              <input type="password" placeholder="Your password" name="password" required>  
-              <button type="submit">Enter</button>
-            </form>
+            <div class="modal-card">
+              <button type="button" class="closeModal" aria-label="Close login form">×</button>
+              <div class="modal-heading">
+                <span class="modal-kicker">Welcome back</span>
+                <h2>Join the conversation</h2>
+                <p>Sign in to post messages and see your activity.</p>
+              </div>
+              <form action="/newUser" method="POST">
+                <% if (authError) { %>
+                  <p class="authError"><%= authError %></p>
+                <% } %>
+                <label>
+                  <span>Name</span>
+                  <input type="text" placeholder="Your name" name="name" autocomplete="username" required>
+                </label>
+                <label>
+                  <span>Password</span>
+                  <input type="password" placeholder="Your password" name="password" autocomplete="current-password" required>
+                </label>
+                <button type="submit">Enter</button>
+              </form>
+            </div>
         </dialog>
     <script>
         const modal = document.querySelector('dialog');
         const openModalBtn = document.querySelector('.userCard button.openModal');
+        const closeModalBtn = document.querySelector('.closeModal');
         const logoutBtn = document.querySelector('.userCard button.logout');
-        const loginForm = document.querySelector('dialog form');
 
         const messageBoard = document.querySelector('.messageBoard');
 
@@ -61,6 +75,10 @@
 
         openModalBtn.addEventListener('click', (e) => {
             modal.showModal();
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.close();
         });
 
         if (logoutBtn) {
