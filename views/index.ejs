@@ -12,9 +12,10 @@
             <img src="<%= currentUser ? currentUser.pic : '/guest.svg' %>" alt="<%= currentUser ? currentUser.name : 'guest-pic' %>">
             <p><%= currentUser ? currentUser.name : 'guest' %></p>
             <div>
-               <button type="button" class="openModal">Log In</button>
-               <% if (currentUser) {%>
-                <button type="button" class="logout">Log Out</button>
+               <% if (!currentUser) {%>
+                 <button type="button" class="openModal">Log In</button>
+               <% } else { %>
+                 <button type="button" class="logout">Log Out</button>
                <% } %>
             </div>
         </div>
@@ -73,9 +74,11 @@
             messageBoard.scrollTop = messageBoard.scrollHeight;
         });
 
-        openModalBtn.addEventListener('click', (e) => {
-            modal.showModal();
-        });
+        if (openModalBtn) {
+            openModalBtn.addEventListener('click', () => {
+                modal.showModal();
+            });
+        }
 
         closeModalBtn.addEventListener('click', () => {
             modal.close();
