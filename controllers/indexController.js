@@ -23,8 +23,9 @@ module.exports = {
     },
     newUser: (req, res) => {
         const { name, password } = req.body;
+        const existingUser = users.find(user => user.name === name);
 
-        if (!users.map(user => user.name).includes(name)) {
+        if (!existingUser) {
             const newUser = new User(
                 crypto.randomUUID(),
                 name,
@@ -33,19 +34,18 @@ module.exports = {
             );
             users.push(newUser);
             currentUser = newUser;
-            res.redirect('/');
+            authError = null;
+            return res.redirect('/');
         }
 
-        const user = users.find(user => user.name === name);
-
-        if (password != user.password) {
+        if (password != existingUser.password) {
             authError = 'Wrong password';
-            res.render('index', { currentUser, authError, open: true });
-            return;
+            return res.render('index', { currentUser, authError, open: true });
         }
 
-        currentUser = user;
-        res.redirect('/');
+        currentUser = existingUser;
+        authError = null;
+        return res.redirect('/');
     },
 
     logout: (req, res) => {
