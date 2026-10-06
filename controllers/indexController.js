@@ -30,7 +30,7 @@ module.exports = {
                 crypto.randomUUID(),
                 name,
                 password,
-                null
+                '/guest.svg'
             );
             users.push(newUser);
             currentUser = newUser;
