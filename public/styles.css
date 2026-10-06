@@ -273,50 +273,180 @@ main > * {
 dialog {
   min-height: 100dvh;
   min-width: 100dvw;
-  background-color: rgba(2, 6, 23, 0.6);
-  padding: 0;
+  background-color: rgba(2, 6, 23, 0.72);
+  padding: 20px;
   border: none;
   color: var(--text);
   display: none;
   justify-content: center;
   align-items: center;
+  backdrop-filter: blur(10px);
 }
 
 dialog[open] {
   display: flex;
 }
 
-dialog > form {
-  background: linear-gradient(180deg, var(--grad-surface-from), var(--grad-surface-to));
-  padding: 20px;
-  border-radius: 12px;
-  width: min(420px, 92%);
+.modal-card {
+  position: relative;
+  width: min(460px, 100%);
+  padding: 34px;
+  overflow: hidden;
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(6, 182, 212, 0.16), transparent 38%),
+    linear-gradient(145deg, rgba(15, 23, 32, 0.98), rgba(11, 17, 22, 0.98));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  animation: modal-in 220ms ease-out;
+}
+
+.modal-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -50px -90px auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(52, 211, 153, 0.08);
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.closeModal {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color var(--transition), background var(--transition), transform var(--transition);
+}
+
+.closeModal:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(5deg);
+}
+
+.modal-heading {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 24px;
+}
+
+.modal-kicker {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.modal-heading h2 {
+  margin-bottom: 8px;
+  font-size: clamp(24px, 6vw, 32px);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.modal-heading p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.modal-card form {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  box-shadow: 0 10px 40px rgba(2, 6, 23, 0.7);
+  gap: 16px;
 }
 
-dialog input {
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+.modal-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #cbd5e1;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.modal-card input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.04);
   color: var(--text);
+  transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
 }
 
-dialog button {
-  padding: 10px 12px;
-  border-radius: 8px;
+.modal-card input::placeholder {
+  color: #64748b;
+}
+
+.modal-card input:focus {
+  border-color: rgba(52, 211, 153, 0.65);
+  background: rgba(52, 211, 153, 0.05);
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.1);
+}
+
+.modal-card form button {
+  margin-top: 4px;
+  padding: 13px 18px;
+  border-radius: 11px;
   background: linear-gradient(90deg, var(--grad-accent-from), var(--grad-accent-to));
   border: none;
   color: #06202a;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
+  box-shadow: 0 10px 24px rgba(52, 211, 153, 0.16);
+  transition: transform var(--transition), filter var(--transition), box-shadow var(--transition);
 }
 
-dialog p {
-  color: var(--danger);
-  font-weight: 600;
+.modal-card form button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 14px 28px rgba(52, 211, 153, 0.22);
+}
+
+.authError {
+  padding: 10px 12px;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 9px;
+  background: rgba(239, 68, 68, 0.08);
+  color: #fca5a5;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@media (max-width: 520px) {
+  dialog {
+    padding: 12px;
+  }
+
+  .modal-card {
+    padding: 28px 20px 22px;
+    border-radius: 16px;
+  }
 }
